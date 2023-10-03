@@ -1,0 +1,1 @@
+This application obtains and stores U.S. legislation and Supreme Court Decisions to support the Verse app.
