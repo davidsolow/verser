@@ -10,9 +10,16 @@ db_params = {
     'dbname': os.environ['POSTGRES_DB'],
     'user': os.environ['POSTGRES_USER'],
     'password': os.environ['POSTGRES_PASSWORD'],
-    'host': 'localhost',  # Assuming PostgreSQL is running on localhost
-    'port': '5432',       # Port where PostgreSQL is exposed
+    'host': 'localhost',
+    'port': '5432',
 }
+
+# Read SQL statements
+with open('sql/create_tables.sql', 'r') as f:
+    create_tables = f.read()
+
+with open('sql/populate_data.sql', 'r') as f:
+    populate_data = f.read()
 
 # Connect to the database
 try:
@@ -20,8 +27,8 @@ try:
     cursor = connection.cursor()
 
     # Example: Create a table and insert data
-    cursor.execute('CREATE TABLE IF NOT EXISTS sample_data (id serial PRIMARY KEY, data text);')
-    cursor.execute('INSERT INTO sample_data (data) VALUES (%s);', ('Hello, PostgreSQL!',))
+    cursor.execute(create_tables)
+    cursor.execute(populate_data)
     connection.commit()
 
 except Exception as e:
