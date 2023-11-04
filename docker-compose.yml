@@ -15,7 +15,9 @@ services:
 
   # Airflow Webserver
   airflow-webserver:
-    image: apache/airflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: verser-airflow-webserver
     depends_on:
       - postgres
@@ -27,6 +29,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - PYTHONPATH=/opt/airflow
     volumes:
       - airflow_logs:/opt/airflow/logs
       - ./dags:/opt/airflow/dags
@@ -37,7 +40,9 @@ services:
 
   # Airflow Scheduler
   airflow-scheduler:
-    image: apache/airflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: verser-airflow-scheduler
     depends_on:
       - postgres
@@ -49,6 +54,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - PYTHONPATH=/opt/airflow
     volumes:
       - airflow_logs:/opt/airflow/logs
       - ./dags:/opt/airflow/dags
