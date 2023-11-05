@@ -12,9 +12,12 @@ db_params = {
     'dbname': os.getenv('POSTGRES_DB'),
     'user': os.getenv('POSTGRES_USER'),
     'password': os.getenv('POSTGRES_PASSWORD'),
-    'host': os.getenv('POSTGRES_HOST', 'localhost'),  # Assuming you have a default value
-    'port': os.getenv('POSTGRES_PORT', '5432'),       # Assuming you have a default value
+    'host': 'postgres',
+    'port': '5432'
 }
+
+if None in db_params.values():
+    raise ValueError("Database configuration is incomplete.")
 
 sql_file_path = os.path.join(SQL_DIRECTORY, 'create_tables.sql')
 
@@ -45,7 +48,6 @@ def update_postgres(new_policies):
     ;
     """
 
-    # Connect to the database
     try:
         with psycopg2.connect(**db_params) as conn:
             with conn.cursor() as cur:

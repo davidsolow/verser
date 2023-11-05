@@ -8,12 +8,12 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # Airflow Webserver
   airflow-webserver:
     build:
       context: .
@@ -22,14 +22,14 @@ services:
     depends_on:
       - postgres
     environment:
-      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@verser-postgres:5432/${POSTGRES_DB}
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - PYTHONPATH=/opt/airflow
+      AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: False
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PYTHONPATH: /opt/airflow
     volumes:
       - airflow_logs:/opt/airflow/logs
       - ./dags:/opt/airflow/dags
@@ -38,7 +38,6 @@ services:
       - "8080:8080"
     command: webserver
 
-  # Airflow Scheduler
   airflow-scheduler:
     build:
       context: .
@@ -47,14 +46,14 @@ services:
     depends_on:
       - postgres
     environment:
-      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@verser-postgres:5432/${POSTGRES_DB}
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - PYTHONPATH=/opt/airflow
+      AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: False
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PYTHONPATH: /opt/airflow
     volumes:
       - airflow_logs:/opt/airflow/logs
       - ./dags:/opt/airflow/dags

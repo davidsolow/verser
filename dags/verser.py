@@ -23,9 +23,8 @@ dag = DAG(
 )
 
 def run_update_postgres():
-    # You could potentially pass context if needed, but it's not used here
-    new_policies = get_policies()  # Retrieve new policies
-    update_postgres(new_policies)  # Update the database with new policies
+    new_policies = get_policies()
+    update_postgres(new_policies)
 
 update_postgres_task = PythonOperator(
     task_id='update_postgres',
