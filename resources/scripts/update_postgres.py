@@ -1,8 +1,6 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
-import requests
-from bs4 import BeautifulSoup
 from resources.configs.config import SQL_DIRECTORY
 
 
